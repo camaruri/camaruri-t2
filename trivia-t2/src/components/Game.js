@@ -13,8 +13,10 @@ function Game(props){
         question_points: 0,
     })
     const [questionOptions, setQuestionOptions] = useState()
-    const [infoTimer, setInfoTimer] = useState()
-    const [infoScore, setInfoScore] = useState()
+    const [infoTimer, setInfoTimer] = useState(0)
+    const [infoScore, setInfoScore] = useState({
+        scores: {}
+    })
 
     const navigate = useNavigate();
 
@@ -26,28 +28,26 @@ function Game(props){
     }
 
     clientConnection.onmessage = function (event) {
-        console.log(event.data);
         const parseMessage = JSON.parse(event.data)
         if (parseMessage.type === "question") {
-            // setQuestionInfo(parseMessage)
-            // if (parseMessage.question_type === "button") {
-            //     console.log("Get inside the button options and the quesiton options arer;:", parseMessage.question_options)
-            //     setQuestionOptions(parseMessage.question_options)
-            // }
             handleQuestion(parseMessage)
         }
         else if (parseMessage.type === "lobby") {
-            console.log("get inside lobby rredirect", parseMessage)
             navigate("/lobby")
         }
-        // else if (parseMessage.type === "lobby") {
-
-        // }
+        else if (parseMessage.type === "timer") {
+            setInfoTimer(parseMessage.seconds_remaining)
+        }
+        else if (parseMessage.type === "score") {
+            setInfoScore(parseMessage.scores)
+        }
       }
     return (
         <QuestionFrame
             questionInfo={questionInfo}
             questionOptions={questionOptions}
+            timer={infoTimer}
+            scores={infoScore}
         />
         
 
@@ -64,9 +64,9 @@ function Game(props){
         //             <p></p>
         //             <p></p>
         //             {(questionInfo.question_type === "button" && 
-        //                 questionInfo.question_options.map((item, key) => {
-        //                     return <li key={key}>{item}</li>
-        //                 })
+                        // questionInfo.question_options.map((item, key) => {
+                        //     return <li key={key}>{item}</li>
+                        // })
         //             )}
         //         </div>
 

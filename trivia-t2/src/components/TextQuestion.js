@@ -8,7 +8,7 @@ function TextQuestion (props) {
 
 
     return (
-        <h1>THIS IS THE BUTTON QUESTION</h1>
+        <h1>{props.question}</h1>
     )
 }
 

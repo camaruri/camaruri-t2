@@ -12,38 +12,51 @@ import TextQuestion from "./TextQuestion";
 
 
 function QuestionFrame (props) {
-    // const [type, setType] = useState('')
-    // setType(props.questionInfo.question_type)
-    console.log("Get inside the question frame and change the question...", props);
     function assignComponent(type) { 
-        console.log("The type is: ", type);
         if (type === "button") {
             return (
-                <ButtonQuestion/>
+                <ButtonQuestion
+                question={props.questionInfo.question_title}
+                options={props.questionInfo.question_options}
+                />
             )
         }
         else if (type === "chat") {
             return (
-                <ChatQuestion/>
+                <ChatQuestion
+                question={props.questionInfo.question_title}
+                />
             )
         }
         else if (type === "text") {
             return (
-                <TextQuestion/>
+                <TextQuestion
+                question={props.questionInfo.question_title}
+                />
             )
         }
     }
 
     return (
-        <Card sx={{ minWidth: 275 }}>
-            <CardContent>
-                <div>
-                    <h1 style={{alignSelf:'center'}}>Question: {props.questionInfo.question_id}</h1>
-                    <h1 style={{alignSelf:'right'}}>Timer: {props.questionInfo.question_id}</h1>
-                </div>
+        <Card sx={{ maxWidth: 800, margin: '10% 20% 10% 25%', backgroundColor: '#F5F5DC'}}>
+            {
+                <CardContent>
+                    {props.questionInfo.question_id !== '' ? 
 
-            </CardContent>
-            {assignComponent(props.questionInfo.question_type)}
+                    <div>
+                        <h1 style={{alignSelf:'center'}}>Question: {props.questionInfo.question_id}</h1>
+                        <h1 style={{alignSelf:'right'}}>Timer: {props.timer}</h1>
+                        {assignComponent(props.questionInfo.question_type)}
+                    </div>
+                    :
+                    <div>
+                        <h1>You are waiting to a question</h1>
+                        <p>{props.timer} seconds left</p>
+                    </div>
+                    }
+                </CardContent>
+            }
+
         </Card>
     )
 }

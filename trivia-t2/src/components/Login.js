@@ -1,8 +1,11 @@
 import React, {useState} from "react";
-import {Input} from 'antd';
+import {Input, Button} from 'antd';
 // import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { useNavigate } from "react-router-dom";
 // import { client } from "websocket";
+
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 
 import clientConnection from "../client";
 const { Search } = Input;
@@ -51,19 +54,24 @@ function Login(props) {
 
 
     return (
-        <div style={{ padding: '200px 40px' }}>
-        <h1>Login Lobby</h1>
-        <h3>Type your username to start..</h3>
-    <Search
-        placeholder="Enter Username"
-        enterButton="Login"
-        size="large"
-        onSearch={value => onLoginClicked(value,setError, setErrorMessage )}
-    />
-    {   (error) && (
-        <p style={{color: "red"}}>{errorMessage}</p>
-    )}
-    </div>
+        <Card>
+            <CardContent  sx={{ maxWidth: 800, margin: '10% 20% 10% 25%', backgroundColor: '#F5F5DC'}}>
+            <div>
+                <h1>INTEGRATION TRIVIA</h1>
+                <h2>Login</h2>
+                <h3>Type your username to start..</h3>
+                <Search
+                    placeholder="Enter Username"
+                    enterButton="Login"
+                    size="large"
+                    onSearch={value => onLoginClicked(value,setError, setErrorMessage )}
+                />
+                {   (error) && (
+                    <p style={{color: "red"}}>{errorMessage}</p>
+                )}
+            </div>
+            </CardContent>
+        </Card>
     )
 }
 

@@ -8,7 +8,7 @@ function ChatQuestion (props) {
 
 
     return (
-        <h1>THIS IS THE Chat QUESTION</h1>
+        <h1>{props.question}</h1>
     )
 }
 
