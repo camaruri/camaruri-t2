@@ -3,6 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Lobby from './components/Lobby';
 import Game from './components/Game';
+import Login from './components/Login';
 
 import { Component } from 'react';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
@@ -36,7 +37,8 @@ export default class App extends Component {
         <div className="App">
           <div className='content'>
             <Routes>
-              <Route path='/' element={<Lobby client={client}/>}/>
+              <Route path='/' element={<Login/>}/>
+              <Route path='/lobby' element={<Lobby/>}/>
               <Route path='/game' element={<Game/>}/>
             </Routes>
           </div>

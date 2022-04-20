@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { useNavigate, useLocation} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import clientConnection from "../client";
 import QuestionFrame from "./QuestionFrame";
@@ -17,24 +17,32 @@ function Game(props){
     const [infoScore, setInfoScore] = useState()
 
     const navigate = useNavigate();
-    const {state} = useLocation();
+
+    function handleQuestion(parseMessage) {
+        setQuestionInfo(parseMessage)
+        if (parseMessage.question_type === "button") {
+            setQuestionOptions(parseMessage.question_options)
+        }
+    }
+
     clientConnection.onmessage = function (event) {
         console.log(event.data);
         const parseMessage = JSON.parse(event.data)
         if (parseMessage.type === "question") {
-            setQuestionInfo(parseMessage)
-            if (parseMessage.question_type === "button") {
-                console.log("Get inside the button options and the quesiton options arer;:", parseMessage.question_options)
-                setQuestionOptions(parseMessage.question_options)
-            }
+            // setQuestionInfo(parseMessage)
+            // if (parseMessage.question_type === "button") {
+            //     console.log("Get inside the button options and the quesiton options arer;:", parseMessage.question_options)
+            //     setQuestionOptions(parseMessage.question_options)
+            // }
+            handleQuestion(parseMessage)
         }
         else if (parseMessage.type === "lobby") {
             console.log("get inside lobby rredirect", parseMessage)
-            navigate("/", {state: {isLoggedIn: true, username: state.username}})
+            navigate("/lobby")
         }
-        else if (parseMessage.type === "lobby") {
+        // else if (parseMessage.type === "lobby") {
 
-        }
+        // }
       }
     return (
         <QuestionFrame
