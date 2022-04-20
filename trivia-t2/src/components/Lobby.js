@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Input} from 'antd';
 // import { w3cwebsocket as W3CWebSocket } from "websocket";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // import { client } from "websocket";
 
 import clientConnection from "../client";
@@ -27,13 +27,27 @@ function Lobby(props) {
     const navigate = useNavigate();
     // const location = useLocation();
 
-    // if (location.state) {
+    // if (location.state != null && state.username === '') {
+    //     console.log("get insie")
     //     setState({
     //         isLoggedIn: true,
     //         username: location.state.username
     //     })
     // }
     
+
+    clientConnection.onmessage = function (event) {
+        const parseMessage = JSON.parse(event.data);
+        if (parseMessage.type === "lobby"){
+            setWaiting(parseMessage.message);
+            setPlayers(parseMessage.players);
+            setLobby(true);
+        } else {
+            console.log("go to game view...");
+            navigate("/game", {state: {isLoggedIn:true, username: state.username}});
+        }
+      }
+
     const onLoginClicked = (value, setState, setError, setErrorMessage, setLobby, setPlayers, setWaiting) => {
         if (value !== '') {
             const dataJoin = JSON.stringify({
@@ -59,13 +73,6 @@ function Lobby(props) {
                 isLoggedIn: true,
                 username: value
             })
-        } else if (parseMessage.type === "lobby"){
-            setWaiting(parseMessage.message);
-            setPlayers(parseMessage.players);
-            setLobby(true);
-        } else {
-            console.log("go to game view...");
-            navigate("/game", {state: {isLogged:true, username: value}});
         }
         
     }
