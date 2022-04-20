@@ -12,8 +12,9 @@ function Game(props){
         question_title: '',
         question_points: 0,
     })
-
     const [questionOptions, setQuestionOptions] = useState()
+    const [infoTimer, setInfoTimer] = useState()
+    const [infoScore, setInfoScore] = useState()
 
     const navigate = useNavigate();
     const {state} = useLocation();
@@ -22,13 +23,17 @@ function Game(props){
         const parseMessage = JSON.parse(event.data)
         if (parseMessage.type === "question") {
             setQuestionInfo(parseMessage)
-            if (parseMessage === "button") {
+            if (parseMessage.question_type === "button") {
+                console.log("Get inside the button options and the quesiton options arer;:", parseMessage.question_options)
                 setQuestionOptions(parseMessage.question_options)
             }
         }
         else if (parseMessage.type === "lobby") {
             console.log("get inside lobby rredirect", parseMessage)
             navigate("/", {state: {isLoggedIn: true, username: state.username}})
+        }
+        else if (parseMessage.type === "lobby") {
+
         }
       }
     return (
