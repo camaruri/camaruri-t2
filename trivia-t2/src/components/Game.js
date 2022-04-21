@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 
 import clientConnection from "../client";
 import QuestionFrame from "./QuestionFrame";
+import ScoreBoard from "./Scoreboard";
+import Streak from "./Streak";
+import Winners from "./Winners";
 
 function Game(props){
     const [questionInfo, setQuestionInfo] = useState({
@@ -14,9 +17,13 @@ function Game(props){
     })
     const [questionOptions, setQuestionOptions] = useState()
     const [infoTimer, setInfoTimer] = useState(0)
-    const [infoScore, setInfoScore] = useState({
-        scores: {}
+    const [infoScore, setInfoScore] = useState()
+    const [streak, setStreak] = useState({
+        username: '',
+        streak: 0
     })
+    const [winners, setWinners] = useState(false)
+    const [winnersScore, setWinnersScore] = useState({})
 
     const navigate = useNavigate();
 
@@ -41,40 +48,47 @@ function Game(props){
         else if (parseMessage.type === "score") {
             setInfoScore(parseMessage.scores)
         }
+        else if (parseMessage.type === "highscore") {
+            setWinners(true)
+            setWinnersScore(parseMessage.winners)
+        }
+        else if (parseMessage.type === "streak") {
+            setStreak(parseMessage)
+        }
+        else if (parseMessage.type === "chat") {
+            console.log("get inside the chat", parseMessage)
+        }
       }
     return (
-        <QuestionFrame
-            questionInfo={questionInfo}
-            questionOptions={questionOptions}
-            timer={infoTimer}
-            scores={infoScore}
-        />
-        
+        !winners ? 
+            <div>
+                <div style={{display:'flex', flexDirection: 'row'}}>
+                    <div style={{width: '70%'}}>
+                        <QuestionFrame
+                            questionInfo={questionInfo}
+                            questionOptions={questionOptions}
+                            timer={infoTimer}
+                        />
+                    </div>
+                    <div style={{width: '30%'}}>
+                        <ScoreBoard
+                        scores={infoScore}
+                        />
+                    </div>
 
-        // <div>
-        //     <h1> Trivia </h1>
-        //     <h2>Username: {state.username}</h2>
-        //     <div>
-        //         {(questionInfo.id !== '') && 
-        //         <div>
-        //             <h2>Number: { questionInfo.question_id }</h2>
-        //             <h4>Type: {questionInfo.question_type}</h4>
-        //             <h4>¿{questionInfo.question_title}?</h4>
-        //             <p></p>
-        //             <p></p>
-        //             <p></p>
-        //             {(questionInfo.question_type === "button" && 
-                        // questionInfo.question_options.map((item, key) => {
-                        //     return <li key={key}>{item}</li>
-                        // })
-        //             )}
-        //         </div>
-
-        //         }
-
-        //     </div>
-        // </div>
-
+                </div>
+                <div style={{width: '600px', height: '100px', margin: 'auto'}}>
+                    <Streak
+                     streak={streak}
+                    />
+                </div>
+            </div>
+        :
+            <div>
+                <Winners
+                    scores={winnersScore}
+                />
+            </div>
     )
 }
 

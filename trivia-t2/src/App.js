@@ -14,21 +14,6 @@ export default class App extends Component {
     client.onopen = () => {
       console.log('WebSocket Client Connected');
     };
-    // client.onmessage = (message) => {
-    //   const dataFromServer = JSON.parse(message.data);
-    //   console.log('got reply! ', dataFromServer);
-    //   if (dataFromServer.type === "message") {
-    //     this.setState((state) =>
-    //       ({
-    //         messages: [...state.messages,
-    //         {
-    //           msg: dataFromServer.msg,
-    //           user: dataFromServer.user
-    //         }]
-    //       })
-    //     );
-    //   }
-    // };
   }
 
   render (){

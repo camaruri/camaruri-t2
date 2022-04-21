@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 // import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 // import CardActions from '@mui/material/CardActions';
@@ -9,15 +9,21 @@ import CardContent from '@mui/material/CardContent';
 import ButtonQuestion from "./ButtonQuestion";
 import ChatQuestion from "./ChatQuestion";
 import TextQuestion from "./TextQuestion";
+import clientConnection from "../client";
 
 
 function QuestionFrame (props) {
+    const [answer, setAnswer] = useState('')
+    const isValid = true
+
     function assignComponent(type) { 
         if (type === "button") {
             return (
                 <ButtonQuestion
                 question={props.questionInfo.question_title}
+                question_id={props.questionInfo.question_id}
                 options={props.questionInfo.question_options}
+                isValid={isValid}
                 />
             )
         }
@@ -25,6 +31,10 @@ function QuestionFrame (props) {
             return (
                 <ChatQuestion
                 question={props.questionInfo.question_title}
+                question_id={props.questionInfo.question_id}
+                answer={answer}
+                setAnswer={setAnswer}
+                sendAnswer={sendAnswer}
                 />
             )
         }
@@ -32,20 +42,36 @@ function QuestionFrame (props) {
             return (
                 <TextQuestion
                 question={props.questionInfo.question_title}
+                question_id={props.questionInfo.question_id}
+                answer={answer}
+                setAnswer={setAnswer}
+                sendAnswer={sendAnswer}
                 />
             )
         }
     }
 
+    function sendAnswer () {
+        console.log("the answer is;: ", answer)
+        const dataAnswer= JSON.stringify({
+            type: "answer",
+            question_id: props.questionInfo.question_id,
+            value: answer
+        })
+        console.log("the dataAnswer is ", dataAnswer)
+        clientConnection.send(dataAnswer);
+        setAnswer('')
+    }
+
     return (
-        <Card sx={{ maxWidth: 800, margin: '10% 20% 10% 25%', backgroundColor: '#F5F5DC'}}>
+        <Card sx={{ height: 600, margin: '5px', backgroundColor: '#F5F5DC'}}>
             {
                 <CardContent>
                     {props.questionInfo.question_id !== '' ? 
 
                     <div>
-                        <h1 style={{alignSelf:'center'}}>Question: {props.questionInfo.question_id}</h1>
-                        <h1 style={{alignSelf:'right'}}>Timer: {props.timer}</h1>
+                        <h1>Question: {props.questionInfo.question_id}</h1>
+                        <h1>Timer: {props.timer}</h1>
                         {assignComponent(props.questionInfo.question_type)}
                     </div>
                     :

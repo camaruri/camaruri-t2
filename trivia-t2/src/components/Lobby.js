@@ -11,15 +11,6 @@ function Lobby(props) {
     const [players, setPlayers] = useState({});
     
     const navigate = useNavigate();
-    // const location = useLocation();
-
-    // if (location.state != null && state.username === '') {
-    //     console.log("get insie")
-    //     setState({
-    //         isLoggedIn: true,
-    //         username: location.state.username
-    //     })
-    // }
     
 
     clientConnection.onmessage = function (event) {
@@ -27,7 +18,6 @@ function Lobby(props) {
         if (parseMessage.type === "lobby"){
             setWaiting(parseMessage.message);
             setPlayers(parseMessage.players);
-            console.log("The players are ", parseMessage)
         } else {
             navigate("/game");
         }
@@ -36,10 +26,10 @@ function Lobby(props) {
       
 
     return (
-        <Card>
-            <CardContent  sx={{ maxWidth: 800, margin: '10% 20% 10% 25%', backgroundColor: '#F5F5DC'}}>
-                <div className="main" id='wrapper'>
-                    <div style={{ padding: '200px 40px' }}>
+        <Card sx={{textAlign: '-webkit-center', marginTop:  '100px',}}>
+            <CardContent  sx={{ maxWidth: 800, backgroundColor: '#F5F5DC'}}>
+                <div>
+                    <div>
                         <h1>Waiting Lobby</h1>
                         <p>{waiting}</p>
                         {players.length > 0 && (
