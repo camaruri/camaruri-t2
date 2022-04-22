@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+import clientConnection from "../client";
 
 
 
@@ -7,11 +9,28 @@ import React, { useState } from "react";
 
 function TextQuestion (props) {
     const [enter, setEnter] = useState(false)
+    const [answer, setAnswer] = useState(undefined)
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        setEnter(true)
-        props.sendAnswer()
+        sendAnswer(answer)
     }
+
+    function sendAnswer (answer) {
+        const dataAnswer= JSON.stringify({
+            type: "answer",
+            question_id: props.question_id,
+            value: answer
+        })
+        console.log("The data answer is ", dataAnswer)
+        clientConnection.send(dataAnswer);
+        setEnter(true)
+    }
+
+    useEffect(() => {
+        setAnswer(undefined)
+        setEnter(false)
+      }, [props.question_id]);
 
     return (
         <div>
@@ -22,13 +41,13 @@ function TextQuestion (props) {
                 <input 
                 name='choreDesc' 
                 type='text'
-                value={props.answer}
-                onChange={e => props.setAnswer(e.target.value)}
+                value={answer}
+                onChange={e => setAnswer(e.target.value)}
                 />
                 <input 
                     type='submit' 
                     value='Enter' 
-                    disabled={props.answer !== ''}
+                    disabled={enter}
                     style={{cursor: 'pointer'}}
                 />
             </form>

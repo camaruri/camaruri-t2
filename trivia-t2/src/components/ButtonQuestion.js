@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 
 import clientConnection from "../client";
 
@@ -14,6 +14,13 @@ function ButtonQuestion (props) {
         setChoice(e.target.value)
     }
 
+    useEffect(() => {
+        // Actualiza el título del documento usando la API del navegador
+        setValid(true)
+        setChoice('')
+        console.log("get inside the use effect because the question id changhes")
+      }, [props.question_id]);
+
     const formSubmit = (e) => {
         e.preventDefault();
         const dataAnswer= JSON.stringify({
@@ -23,7 +30,6 @@ function ButtonQuestion (props) {
         })
         console.log("the dataAnswer is ", dataAnswer)
         clientConnection.send(dataAnswer);
-        setChoice('')
         setValid(false)
       }
 
@@ -47,9 +53,6 @@ function ButtonQuestion (props) {
                     </div>
                 ))
                 }
-                <div>
-                    Selected option is : {choice}
-                </div>
                 <button className="btn btn-default" type="submit" disabled={!valid}>
                     Submit
                 </button>

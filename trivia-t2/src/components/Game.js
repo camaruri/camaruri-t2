@@ -58,6 +58,9 @@ function Game(props){
         else if (parseMessage.type === "chat") {
             console.log("get inside the chat", parseMessage)
         }
+        else if (parseMessage.type === "result") {
+            console.log("get inside the result of the question", parseMessage)
+        }
       }
     return (
         !winners ? 

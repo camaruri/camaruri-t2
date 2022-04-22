@@ -1,28 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
+import clientConnection from "../client";
 
 
 
 
 function ChatQuestion (props) {
-    const [answer, setAnswer] = useState('')
-    const [enter, setEnter] = useState(false)
+    const [answer, setAnswer] = useState(undefined)
+    
     const handleSubmit = (e) => {
         e.preventDefault();
-        setEnter(true)
-        sendAnswer()
+        sendAnswer(answer)
     }
 
-
-    function sendAnswer () {
+    function sendAnswer (answer) {
         const dataAnswer= JSON.stringify({
             type: "answer",
             question_id: props.question_id,
             value: answer
         })
-        console.log("the dataAnswer is ", dataAnswer)
-        // clientConnection.send(dataJoin);
+        clientConnection.send(dataAnswer);
+        setAnswer(undefined)
     }
+
+    useEffect(() => {
+        setAnswer(undefined)
+      }, [props.question_id]);
 
 
     return (

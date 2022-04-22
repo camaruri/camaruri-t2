@@ -11,7 +11,7 @@ function Winners (props) {
                 <CardContent>
                     <h1>Winners:</h1>
                     <div style={{textAlign: '-webkit-center'}}>
-                        <table class="table table-striped" style={{width: '-webkit-fill-available'}}>
+                        <table style={{width: '-webkit-fill-available'}}>
                             <thead>
                                 <tr>
                                     <th>Place</th>

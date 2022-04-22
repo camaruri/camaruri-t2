@@ -21,6 +21,7 @@ function ScoreBoard (props) {
             jsonData.push(userInfo)
         }  
     }
+    console.log("the totalof the players are:", Object.keys(props.scores).length)
 
     function makeJson(props) {
         var jsonData = []
@@ -44,7 +45,7 @@ function ScoreBoard (props) {
                 <CardContent>
                     <h1>Scores:</h1>
                     <div style={{textAlign: '-webkit-center'}}>
-                        <table class="table table-striped" style={{width: '-webkit-fill-available'}}>
+                        <table style={{width: '-webkit-fill-available'}}>
                             <thead>
                                 <tr>
                                     <th>Place</th>

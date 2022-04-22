@@ -13,7 +13,7 @@ import clientConnection from "../client";
 
 
 function QuestionFrame (props) {
-    const [answer, setAnswer] = useState('')
+    // const [answer, setAnswer] = useState(null)
     const isValid = true
 
     function assignComponent(type) { 
@@ -32,9 +32,6 @@ function QuestionFrame (props) {
                 <ChatQuestion
                 question={props.questionInfo.question_title}
                 question_id={props.questionInfo.question_id}
-                answer={answer}
-                setAnswer={setAnswer}
-                sendAnswer={sendAnswer}
                 />
             )
         }
@@ -43,24 +40,9 @@ function QuestionFrame (props) {
                 <TextQuestion
                 question={props.questionInfo.question_title}
                 question_id={props.questionInfo.question_id}
-                answer={answer}
-                setAnswer={setAnswer}
-                sendAnswer={sendAnswer}
                 />
             )
         }
-    }
-
-    function sendAnswer () {
-        console.log("the answer is;: ", answer)
-        const dataAnswer= JSON.stringify({
-            type: "answer",
-            question_id: props.questionInfo.question_id,
-            value: answer
-        })
-        console.log("the dataAnswer is ", dataAnswer)
-        clientConnection.send(dataAnswer);
-        setAnswer('')
     }
 
     return (
