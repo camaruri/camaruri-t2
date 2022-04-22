@@ -9,7 +9,7 @@ import clientConnection from "../client";
 
 function TextQuestion (props) {
     const [enter, setEnter] = useState(false)
-    const [answer, setAnswer] = useState(undefined)
+    const [answer, setAnswer] = useState('')
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -28,7 +28,7 @@ function TextQuestion (props) {
     }
 
     useEffect(() => {
-        setAnswer(undefined)
+        setAnswer('')
         setEnter(false)
       }, [props.question_id]);
 

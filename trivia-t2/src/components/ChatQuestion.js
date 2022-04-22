@@ -6,7 +6,7 @@ import clientConnection from "../client";
 
 
 function ChatQuestion (props) {
-    const [answer, setAnswer] = useState(undefined)
+    const [answer, setAnswer] = useState('')
     
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -20,11 +20,11 @@ function ChatQuestion (props) {
             value: answer
         })
         clientConnection.send(dataAnswer);
-        setAnswer(undefined)
+        setAnswer('')
     }
 
     useEffect(() => {
-        setAnswer(undefined)
+        setAnswer('')
       }, [props.question_id]);
 
 
